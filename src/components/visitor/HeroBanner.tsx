@@ -12,16 +12,16 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ currentLang, prices, onB
   const t = translations[currentLang];
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-xs mb-8 p-6 sm:p-10 text-left">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-white border border-slate-200 shadow-xs mb-6 sm:mb-8 p-4 sm:p-8 text-left w-full max-w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
         
         {/* Left Column: Hero Details */}
-        <div className="lg:col-span-7 space-y-4">
-          <div className="inline-block px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-800 text-xs font-bold whitespace-nowrap">
+        <div className="lg:col-span-7 space-y-3 sm:space-y-4">
+          <div className="inline-block px-2.5 py-0.5 rounded-full bg-teal-50 border border-teal-200 text-teal-800 text-[11px] sm:text-xs font-bold">
             {t.badgeOfficial}
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+          <h1 className="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
             {t.tagline}
           </h1>
 
@@ -30,18 +30,19 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ currentLang, prices, onB
           </p>
 
           {/* Quick Feature Pills (No front icons) */}
-          <div className="flex flex-wrap items-center gap-2 pt-1">
-            <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 whitespace-nowrap">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-1">
+            <span className="text-[11px] sm:text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">
               E-Tiket Kod QR Pantas
             </span>
-            <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 whitespace-nowrap">
+            <span className="text-[11px] sm:text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">
               Imbasan Pantas di Jeti
             </span>
-            <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 whitespace-nowrap">
+            <span className="text-[11px] sm:text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">
               Pemuliharaan Marin Semporna
             </span>
           </div>
         </div>
+
 
         {/* Right Column: Pricing Highlights Card (White Theme) */}
         <div className="lg:col-span-5">

@@ -45,7 +45,8 @@ export function AdminPage({ currentLang, onLanguageChange, config, onConfigUpdat
         onAdminLogout={isAdminAuthenticated ? handleAdminLogout : undefined}
       />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 overflow-hidden">
+
         {!isAdminAuthenticated ? (
           <div className="max-w-sm mx-auto py-12 px-4 text-center space-y-5">
             <div>
