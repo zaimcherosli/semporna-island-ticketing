@@ -15,6 +15,53 @@
   }
 }
 
+/* HTML5-QRCode Scanner Full-Width Viewport */
+#qr-reader-container {
+  width: 100% !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+#qr-reader-container video {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 280px !important;
+  max-height: 380px !important;
+  object-fit: cover !important;
+  border-radius: 1.25rem !important;
+}
+
+#qr-reader-container__scan_region {
+  min-height: 280px !important;
+  background: transparent !important;
+}
+
+#qr-reader-container__dashboard {
+  display: none !important;
+}
+
+#qr-reader-container__header_message {
+  display: none !important;
+}
+
+@keyframes scan-laser {
+  0% { top: 10%; opacity: 0.8; }
+  50% { top: 90%; opacity: 1; }
+  100% { top: 10%; opacity: 0.8; }
+}
+
+.scan-laser-line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #14b8a6, #10b981, transparent);
+  box-shadow: 0 0 12px #10b981, 0 0 4px #14b8a6;
+  animation: scan-laser 2s infinite ease-in-out;
+  pointer-events: none;
+}
+
+
 
 @keyframes pulse-ring {
   0% { transform: scale(0.95); opacity: 0.8; }
