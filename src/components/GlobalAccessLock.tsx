@@ -4,21 +4,43 @@ interface GlobalAccessLockProps {
   onUnlock: () => void;
 }
 
+// SHA-256 One-way Hash of the default access key (No plain password stored in source code)
+const DEFAULT_ACCESS_HASH = '05853cc8379476d8bb3d350625a3bc08b91214049be1847d4e5403cc44715e31';
+
+async function sha256(message: string): Promise<string> {
+  const msgBuffer = new TextEncoder().encode(message.trim());
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 export const GlobalAccessLock: React.FC<GlobalAccessLockProps> = ({ onUnlock }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (password.trim() === '889900') {
-      setError(false);
-      sessionStorage.setItem('semporna_site_access_unlocked', 'true');
-      localStorage.setItem('semporna_site_access_unlocked', 'true');
-      onUnlock();
-    } else {
+    try {
+      // 1. Calculate cryptographic one-way hash of the input
+      const inputHash = await sha256(password);
+      
+      // 2. Compare against target hash (or optional ENV variable hash)
+      const targetHash = (import.meta.env.VITE_ACCESS_PASS_HASH as string) || DEFAULT_ACCESS_HASH;
+
+      if (inputHash === targetHash) {
+        setError(false);
+        sessionStorage.setItem('semporna_site_access_unlocked', 'true');
+        localStorage.setItem('semporna_site_access_unlocked', 'true');
+        onUnlock();
+      } else {
+        setError(true);
+        setIsSubmitting(false);
+      }
+    } catch (err) {
+      console.error("Hash verification error", err);
       setError(true);
       setIsSubmitting(false);
     }
@@ -70,12 +92,12 @@ export const GlobalAccessLock: React.FC<GlobalAccessLockProps> = ({ onUnlock }) 
         <form onSubmit={handleSubmit} className="space-y-4 text-left">
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1.5 text-center">
-              Masukkan Kata Laluan Akses (6-Digit)
+              Masukkan Kata Laluan Akses
             </label>
             <input
               type="password"
               inputMode="numeric"
-              maxLength={10}
+              maxLength={12}
               placeholder="••••••"
               value={password}
               onChange={(e) => {
@@ -99,7 +121,7 @@ export const GlobalAccessLock: React.FC<GlobalAccessLockProps> = ({ onUnlock }) 
             disabled={isSubmitting || password.length === 0}
             className="w-full py-3.5 bg-teal-600 hover:bg-teal-700 disabled:opacity-50 text-white font-extrabold rounded-xl text-xs sm:text-sm transition-colors shadow-xs cursor-pointer whitespace-nowrap text-center"
           >
-            Buka Akses Sistem
+            {isSubmitting ? "Mengesahkan Akses..." : "Buka Akses Sistem"}
           </button>
         </form>
 
