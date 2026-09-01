@@ -6,10 +6,19 @@ import { VisitorPage } from './pages/VisitorPage';
 import { StaffPage } from './pages/StaffPage';
 import { AdminPage } from './pages/AdminPage';
 import { DirectTicketPage } from './pages/DirectTicketPage';
+import { GlobalAccessLock } from './components/GlobalAccessLock';
 
 export function App() {
   const [currentLang, setCurrentLang] = useState<Language>('ms');
   const [config, setConfig] = useState<IslandConfig>(storageService.getConfig());
+  
+  // Check if system is unlocked
+  const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
+    return (
+      sessionStorage.getItem('semporna_site_access_unlocked') === 'true' ||
+      localStorage.getItem('semporna_site_access_unlocked') === 'true'
+    );
+  });
 
   useEffect(() => {
     setConfig(storageService.getConfig());
@@ -18,6 +27,15 @@ export function App() {
   const handleConfigUpdated = (newConfig: IslandConfig) => {
     setConfig(newConfig);
   };
+
+  const handleUnlock = () => {
+    setIsUnlocked(true);
+  };
+
+  // If not unlocked, lock all 3 portals behind password 889900
+  if (!isUnlocked) {
+    return <GlobalAccessLock onUnlock={handleUnlock} />;
+  }
 
   return (
     <BrowserRouter>

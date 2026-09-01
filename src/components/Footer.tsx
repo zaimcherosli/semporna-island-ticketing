@@ -48,9 +48,23 @@ export const Footer: React.FC<FooterProps> = ({ config }) => {
 
         <div className="mt-6 pt-5 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-500">
           <div>© {new Date().getFullYear()} {config.islandName}. Hak cipta terpelihara.</div>
-          <div>Pelancongan Pulau Semporna, Sabah</div>
+          <div className="flex items-center gap-3">
+            <span>Pelancongan Pulau Semporna, Sabah</span>
+            <button
+              onClick={() => {
+                sessionStorage.removeItem('semporna_site_access_unlocked');
+                localStorage.removeItem('semporna_site_access_unlocked');
+                window.location.reload();
+              }}
+              className="text-[10px] text-slate-400 hover:text-slate-700 underline cursor-pointer"
+              title="Kunci semula sistem dengan kata laluan 889900"
+            >
+              🔒 Kunci Semula
+            </button>
+          </div>
         </div>
       </div>
     </footer>
   );
 };
+
